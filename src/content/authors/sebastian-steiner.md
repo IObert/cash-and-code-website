@@ -1,6 +1,6 @@
 ---
 name: "Sebastian Steiner"
-role: "Bereichsleiter Individualkunden und Marketing, Volksbank Mittlerer Schwarzwald"
+role: "Bereichsleiter Individualkunden und Marketing"
 image: "/sebastian.png"
 links:
   - label: "E-Mail"
