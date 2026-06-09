@@ -8,7 +8,8 @@ import { withBase } from "../utils/withBase";
 const episodes = (await getCollection("episodes")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
-const authors = await getCollection("authors");
+const authorsRaw = await getCollection("authors");
+const authors = authorsRaw.sort((a, b) => a.data.name.includes("Sebastian") ? -1 : 1);
 const latest = episodes[0];
 const formatter = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" });
 ---

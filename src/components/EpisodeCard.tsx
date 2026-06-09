@@ -13,6 +13,9 @@ type Props = {
 export function EpisodeCard({ title, href, date, summary, episodeNumber, durationMinutes, tags }: Props) {
   return (
     <a className="card episode-card" href={href}>
+      <span className="episode-number" aria-hidden="true">
+        {String(episodeNumber).padStart(2, "0")}
+      </span>
       <div className="episode-meta">
         <span>Folge {episodeNumber}</span>
         <span aria-hidden="true">·</span>

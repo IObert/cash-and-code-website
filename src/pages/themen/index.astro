@@ -3,7 +3,9 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { withBase } from "../../utils/withBase";
 
-const topics = await getCollection("topics");
+const order = ["ki", "blockchain", "finanzwelt", "sicherheit"];
+const topicsRaw = await getCollection("topics");
+const topics = topicsRaw.sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug));
 ---
 
 <BaseLayout title="Themen - Cash and Code" description="Themenseiten zu Cash and Code: KI, Blockchain, Finanzwelt und digitale Sicherheit.">

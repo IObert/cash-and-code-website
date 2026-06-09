@@ -29,8 +29,8 @@ const spotifyUrl = "https://open.spotify.com/show/0pVDQxkINI9yB9MDhmuTqN";
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/png" href="/home.png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="/home.png" />
+    <link rel="icon" type="image/png" href={withBase("/home.png")} sizes="32x32" />
+    <link rel="apple-touch-icon" href={withBase("/home.png")} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -54,7 +54,7 @@ const spotifyUrl = "https://open.spotify.com/show/0pVDQxkINI9yB9MDhmuTqN";
         <div class="container nav">
           <a class="brand" href={withBase("/")}>
             <span class="brand-mark">
-              <img src="/home.png" alt="Cash and Code Logo" width="40" height="40" />
+              <img src={withBase("/home.png")} alt="Cash and Code Logo" width="40" height="40" />
             </span>
             <span>Cash and Code <strong>Podcast</strong></span>
           </a>
