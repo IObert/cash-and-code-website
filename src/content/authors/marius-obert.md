@@ -11,4 +11,4 @@ links:
     url: "https://iobert.me"
 ---
 
-Marius arbeitet an der Schnittstelle von Software, Kommunikationstechnologie und Developer Experience. Im Podcast übernimmt er den Technologie-Part und ordnet ein, was KI, Blockchain, digitale Interfaces und Softwaretrends praktisch bedeuten.
+Marius arbeitet an der Schnittstelle von Softwareentwicklung und Marketing – er versteht, was Nutzer erwarten, und wie Technik das einlöst. Als Developer Evangelist, Buchautor und Blogger erklärt er, warum Tech Disruptions wie KI oder Blockchain mehr als Buzzwords sind. Im Podcast übernimmt er den Technologie-Part: direkt, einordnend, und mit dem nötigen Humor – wenn er nicht gerade ein Brettspiel gewinnt.

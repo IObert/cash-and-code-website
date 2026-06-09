@@ -1,6 +1,6 @@
 ---
 name: "Sebastian Steiner"
-role: "Finanzperspektive und Bankpraxis"
+role: "Bereichsleiter Individualkunden und Marketing, Volksbank Mittlerer Schwarzwald"
 image: "/sebastian.png"
 links:
   - label: "E-Mail"
@@ -9,4 +9,4 @@ links:
     url: "https://www.linkedin.com/in/sebastian-steiner-75026b248/"
 ---
 
-Sebastian bringt die Perspektive aus der Finanzwelt ein. Er erklärt, wie Geldanlage, Beratung, Banken, Finanzierung und Zahlungssysteme in der Praxis funktionieren und wo digitale Entwicklungen den Alltag verändern.
+Sebastian ist Bereichsleiter bei der Volksbank Mittlerer Schwarzwald und macht diesen Podcast aus Leidenschaft für Innovation. Im Schwarzwald beheimatet, schaut er geografisch wie thematisch über den Tellerrand: Was bewegt die Finanzwelt, wo verändert Technologie das Bankgeschäft, und was bedeutet das für Menschen und Unternehmen – egal ob im Schwarzwald oder anderswo.
