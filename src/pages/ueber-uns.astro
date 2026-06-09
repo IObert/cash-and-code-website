@@ -4,10 +4,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { AuthorCard } from "../components/AuthorCard";
 import { withBase } from "../utils/withBase";
 
-const authors = await getCollection("authors");
+const authorsRaw = await getCollection("authors");
+const authors = authorsRaw.sort((a, b) => {
+  if (a.data.name.includes("Sebastian")) return -1;
+  if (b.data.name.includes("Sebastian")) return 1;
+  return 0;
+});
 ---
 
-<BaseLayout title="Über uns - Cash and Code" description="Über Sebastian Steiner, Marius Obert und die Idee hinter Cash and Code.">
+<BaseLayout title="Über uns" description="Über Sebastian Steiner, Marius Obert und die Idee hinter Cash and Code.">
   <main>
     <section class="page-title">
       <div class="container">

@@ -6,16 +6,19 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  titleSuffix?: boolean;
 }
 
-const { title, description, image = "/cash-and-code-cover.jpg" } = Astro.props;
+const { title, description, image = "/cash-and-code-cover.jpg", titleSuffix = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site || "https://cashandcode.show");
+const pageTitle = titleSuffix && !title.includes("Podcast") ? `${title} · Cash and Code Podcast` : title;
 const nav = [
   ["Folgen", "/folgen/"],
   ["Themen", "/themen/"],
   ["Über uns", "/ueber-uns/"],
   ["Kontakt", "/kontakt/"],
 ];
+const spotifyUrl = "https://open.spotify.com/show/0pVDQxkINI9yB9MDhmuTqN";
 ---
 
 <!doctype html>
@@ -23,11 +26,13 @@ const nav = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/home.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/home.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(withBase(image), canonical)} />
     <meta property="og:locale" content="de_DE" />
@@ -46,14 +51,25 @@ const nav = [
       <header class="site-header">
         <div class="container nav">
           <a class="brand" href={withBase("/")}>
-            <span class="brand-mark">C&C</span>
-            <span>Cash and Code</span>
+            <span class="brand-mark">
+              <img src="/home.png" alt="Cash and Code Logo" width="40" height="40" />
+            </span>
+            <span>Cash and Code <strong>Podcast</strong></span>
           </a>
           <div class="nav-actions">
             <nav class="nav-links" aria-label="Hauptnavigation">
               {nav.map(([label, href]) => (
                 <a href={withBase(href)} aria-current={Astro.url.pathname.endsWith(href) ? "page" : undefined}>{label}</a>
               ))}
+              <a href={spotifyUrl} title="Zum Podcast auf Spotify" aria-label="Zum Podcast auf Spotify" class="nav-spotify">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3c-2.2 0-4 1.8-4 4v6c0 2.2 1.8 4 4 4s4-1.8 4-4V7c0-2.2-1.8-4-4-4" />
+                  <path d="M7 13a5 5 0 0 0 10 0" />
+                  <path d="M12 17v3" />
+                  <path d="M9 20h6" />
+                </svg>
+                <span>Zum Podcast</span>
+              </a>
             </nav>
             <button class="theme-toggle" type="button" aria-label="Zu Dunkelmodus wechseln" data-theme-toggle>
               <span class="theme-icon" data-theme-icon="moon" aria-hidden="true">
