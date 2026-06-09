@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../utils/withBase";
+
+export async function getStaticPaths() {
+  const episodes = await getCollection("episodes");
+  return episodes.map((episode) => ({ params: { slug: episode.slug }, props: { episode } }));
+}
+
+const { episode } = Astro.props;
+const { Content } = await render(episode);
+const formatter = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" });
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "PodcastEpisode",
+  name: episode.data.title,
+  datePublished: episode.data.date.toISOString(),
+  description: episode.data.summary,
+  url: new URL(Astro.url.pathname, Astro.site),
+  partOfSeries: {
+    "@type": "PodcastSeries",
+    name: "Cash and Code",
+    url: "https://open.spotify.com/show/0pVDQxkINI9yB9MDhmuTqN",
+  },
+  associatedMedia: {
+    "@type": "MediaObject",
+    contentUrl: episode.data.spotifyUrl,
+  },
+};
+---
+
+<BaseLayout title={`${episode.data.title} - Cash and Code`} description={episode.data.summary}>
+  <main>
+    <section class="episode-hero">
+      <div class="container">
+        <div class="episode-meta">
+          <span>Folge {episode.data.episodeNumber}</span>
+          <span aria-hidden="true">·</span>
+          <span>{formatter.format(episode.data.date)}</span>
+          {episode.data.durationMinutes && <><span aria-hidden="true">·</span><span>{episode.data.durationMinutes} Min.</span></>}
+        </div>
+        <h1>{episode.data.title}</h1>
+        <p class="lead">{episode.data.summary}</p>
+        <div class="actions">
+          <a class="button" href={episode.data.spotifyUrl}>Auf Spotify öffnen</a>
+          <a class="button secondary" href={withBase("/folgen/")}>Alle Folgen</a>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container grid two">
+        <article class="prose">
+          <Content />
+          <div class="tag-list">
+            {episode.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+        </article>
+        <iframe
+          class="spotify-frame"
+          src={`https://open.spotify.com/embed/episode/${episode.data.spotifyId}`}
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          title={`Spotify Player: ${episode.data.title}`}
+        ></iframe>
+      </div>
+    </section>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </main>
+</BaseLayout>

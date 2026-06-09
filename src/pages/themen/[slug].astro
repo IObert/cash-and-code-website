@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { EpisodeCard } from "../../components/EpisodeCard";
+import { withBase } from "../../utils/withBase";
+
+export async function getStaticPaths() {
+  const topics = await getCollection("topics");
+  return topics.map((topic) => ({ params: { slug: topic.slug }, props: { topic } }));
+}
+
+const { topic } = Astro.props;
+const { Content } = await render(topic);
+const episodes = (await getCollection("episodes"))
+  .filter((episode) => topic.data.tags.some((tag) => episode.data.tags.includes(tag)))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const formatter = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" });
+---
+
+<BaseLayout title={`${topic.data.title} - Cash and Code`} description={topic.data.description}>
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="eyebrow">Thema</p>
+        <h1>{topic.data.title}</h1>
+        <p class="lead">{topic.data.description}</p>
+      </div>
+    </section>
+    <section class="section compact">
+      <div class="container prose">
+        <Content />
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Passende Folgen</h2>
+        </div>
+        <div class="grid three">
+          {episodes.map((episode) => (
+            <EpisodeCard
+              title={episode.data.title}
+              href={withBase(`/folgen/${episode.slug}/`)}
+              date={formatter.format(episode.data.date)}
+              summary={episode.data.summary}
+              episodeNumber={episode.data.episodeNumber}
+              durationMinutes={episode.data.durationMinutes}
+              tags={episode.data.tags}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

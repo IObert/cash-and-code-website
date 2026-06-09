@@ -1,0 +1,142 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { EpisodeCard } from "../components/EpisodeCard";
+import { AuthorCard } from "../components/AuthorCard";
+import { withBase } from "../utils/withBase";
+
+const episodes = (await getCollection("episodes")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const authors = await getCollection("authors");
+const latest = episodes[0];
+const formatter = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" });
+---
+
+<BaseLayout
+  title="Cash and Code - Podcast über Finanzwelt und Technologie"
+  description="Cash and Code beleuchtet jeden Monat, was passiert, wenn Geld auf Digitalisierung trifft."
+>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Podcast von Sebastian Steiner und Marius Obert</p>
+          <h1>Wenn Geld auf Digitalisierung trifft.</h1>
+          <p class="lead">
+            Finanzwelt und Technologie wirken zunächst unterschiedlich, doch ihre Schnittpunkte sind größer, als man denkt.
+            Cash and Code ordnet KI, Blockchain, Bezahlsysteme und digitale Trends verständlich, ehrlich und mit badischem Charme ein.
+          </p>
+          <div class="actions">
+            <a class="button" href={withBase("/folgen/")}>Alle Folgen</a>
+            <a class="button secondary" href="https://open.spotify.com/show/0pVDQxkINI9yB9MDhmuTqN">Auf Spotify hören</a>
+          </div>
+        </div>
+        <div class="cover-wrap">
+          <img class="podcast-cover" src={withBase("/cash-and-code-cover.jpg")} alt="Cash and Code Podcast Cover" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Aktuelle Folge</p>
+            <h2>{latest.data.title}</h2>
+          </div>
+          <a class="button secondary" href={withBase(`/folgen/${latest.slug}/`)}>Zur Folge</a>
+        </div>
+        <div class="grid two">
+          <div class="prose">
+            <p>{latest.data.summary}</p>
+            <p>{formatter.format(latest.data.date)} · Folge {latest.data.episodeNumber}</p>
+          </div>
+          <iframe
+            class="spotify-frame"
+            src={`https://open.spotify.com/embed/episode/${latest.data.spotifyId}`}
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title={`Spotify Player: ${latest.data.title}`}
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Mission</p>
+            <h2>Komplexe Themen, sauber sortiert.</h2>
+          </div>
+          <p>
+            Der Podcast verbindet Finanzpraxis mit Technologie-Erklärung: Was ist Hype, was verändert tatsächlich den Alltag,
+            und welche Risiken sollte man verstehen, bevor aus Buzzwords Entscheidungen werden?
+          </p>
+        </div>
+        <div class="grid three">
+          <article class="card episode-card">
+            <h3>Verständlich</h3>
+            <p>Fachbegriffe werden eingeordnet, ohne die Themen kleinzureden.</p>
+          </article>
+          <article class="card episode-card">
+            <h3>Praxisnah</h3>
+            <p>Jede Folge verbindet aktuelle Beispiele mit konkreten Auswirkungen für Alltag und Unternehmen.</p>
+          </article>
+          <article class="card episode-card">
+            <h3>Meinungsstark</h3>
+            <p>Zwei Perspektiven, ehrliche Einschätzungen und genug Humor, damit Lernen leicht bleibt.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Ausgewählte Folgen</p>
+            <h2>Der schnelle Einstieg.</h2>
+          </div>
+          <a class="button secondary" href={withBase("/folgen/")}>Alle Folgen ansehen</a>
+        </div>
+        <div class="grid three">
+          {episodes.slice(0, 3).map((episode) => (
+            <EpisodeCard
+              title={episode.data.title}
+              href={withBase(`/folgen/${episode.slug}/`)}
+              date={formatter.format(episode.data.date)}
+              summary={episode.data.summary}
+              episodeNumber={episode.data.episodeNumber}
+              durationMinutes={episode.data.durationMinutes}
+              tags={episode.data.tags}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Hosts</p>
+            <h2>Zwei Freunde, zwei Perspektiven.</h2>
+          </div>
+        </div>
+        <div class="grid two">
+          {authors.map((author) => (
+            <AuthorCard
+              name={author.data.name}
+              role={author.data.role}
+              image={author.data.image ? withBase(author.data.image) : undefined}
+              body={author.body}
+              links={author.data.links}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

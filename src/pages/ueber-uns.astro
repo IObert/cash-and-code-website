@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { AuthorCard } from "../components/AuthorCard";
+import { withBase } from "../utils/withBase";
+
+const authors = await getCollection("authors");
+---
+
+<BaseLayout title="Über uns - Cash and Code" description="Über Sebastian Steiner, Marius Obert und die Idee hinter Cash and Code.">
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="eyebrow">Über uns</p>
+        <h1>Zwei Freunde, ein gemeinsamer Blick auf Geld und Technologie.</h1>
+        <p class="lead">
+          Cash and Code verbindet Finanzpraxis und Technologie-Erfahrung. Sebastian bringt die Bank- und Beratungsperspektive ein,
+          Marius ordnet digitale Trends, Software und KI ein.
+        </p>
+      </div>
+    </section>
+    <section class="section compact">
+      <div class="container grid two">
+        {authors.map((author) => (
+          <AuthorCard
+            name={author.data.name}
+            role={author.data.role}
+            image={author.data.image ? withBase(author.data.image) : undefined}
+            body={author.body}
+            links={author.data.links}
+          />
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

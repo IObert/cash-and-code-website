@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { EpisodeCard } from "../../components/EpisodeCard";
+import { withBase } from "../../utils/withBase";
+
+const episodes = (await getCollection("episodes")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const formatter = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" });
+---
+
+<BaseLayout title="Alle Folgen - Cash and Code" description="Alle Episoden von Cash and Code mit Beschreibung und Spotify-Link.">
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="eyebrow">Folgenarchiv</p>
+        <h1>Alle Folgen</h1>
+        <p class="lead">Jede Episode hat eine eigene Seite mit Beschreibung, Themen und Spotify-Player.</p>
+      </div>
+    </section>
+    <section class="section compact">
+      <div class="container grid three">
+        {episodes.map((episode) => (
+          <EpisodeCard
+            title={episode.data.title}
+            href={withBase(`/folgen/${episode.slug}/`)}
+            date={formatter.format(episode.data.date)}
+            summary={episode.data.summary}
+            episodeNumber={episode.data.episodeNumber}
+            durationMinutes={episode.data.durationMinutes}
+            tags={episode.data.tags}
+          />
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

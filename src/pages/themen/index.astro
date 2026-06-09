@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../utils/withBase";
+
+const topics = await getCollection("topics");
+---
+
+<BaseLayout title="Themen - Cash and Code" description="Themenseiten zu Cash and Code: KI, Blockchain, Finanzwelt und digitale Sicherheit.">
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="eyebrow">Themen</p>
+        <h1>Wiederkehrende Schwerpunkte</h1>
+        <p class="lead">Für Suchmaschinen, Agenten und Menschen: die wichtigsten Themen des Podcasts sauber gebündelt.</p>
+      </div>
+    </section>
+    <section class="section compact">
+      <div class="container grid three">
+        {topics.map((topic) => (
+          <a class="card episode-card" href={withBase(`/themen/${topic.slug}/`)}>
+            <h3>{topic.data.title}</h3>
+            <p>{topic.data.description}</p>
+            <div class="tag-list">
+              {topic.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
