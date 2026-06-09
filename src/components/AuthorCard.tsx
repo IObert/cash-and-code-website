@@ -16,7 +16,7 @@ export function AuthorCard({ name, role, image, body, links }: Props) {
   return (
     <article className="card author-card">
       <div className="author-row">
-        {image ? <img className="author-image" src={image} alt={name} /> : <div className="author-fallback">{initials}</div>}
+        {image ? <img className="author-image" src={image} alt={name} width="80" height="80" /> : <div className="author-fallback">{initials}</div>}
         <div>
           <h3>{name}</h3>
           <p style={{ margin: 0, color: "var(--muted)" }}>{role}</p>
